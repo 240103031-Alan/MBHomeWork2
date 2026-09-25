@@ -1,20 +1,45 @@
 fun main() {
-    val amanda = Person("Amanda", 33, "play tennis", null)
-    val atiqah = Person("Atiqah", 28, "climb", amanda)
+    val phone = FoldablePhone()
 
-    amanda.showProfile()
-    atiqah.showProfile()
+    phone.switchOn()
+    phone.checkPhoneScreenLight()
+
+    phone.unfold()
+    phone.switchOn()
+    phone.checkPhoneScreenLight()
+
+    phone.fold()
+    phone.switchOff()
+    phone.checkPhoneScreenLight()
 }
 
-class Person(val name: String, val age: Int, val hobby: String?, val referrer: Person?) {
-    fun showProfile() {
-        println("Name: $name")
-        println("Age: $age")
-        if (referrer == null) {
-            println("Likes to $hobby. Doesn't have a referrer.")
-        } else {
-            println("Likes to $hobby. Has a referrer named ${referrer.name}, who likes to ${referrer.hobby}.")
+open class Phone(var isScreenLightOn: Boolean = false) {
+    open fun switchOn() {
+        isScreenLightOn = true
+    }
+
+    fun switchOff() {
+        isScreenLightOn = false
+    }
+
+    fun checkPhoneScreenLight() {
+        val phoneScreenLight = if (isScreenLightOn) "on" else "off"
+        println("The phone screen's light is $phoneScreenLight.")
+    }
+}
+
+class FoldablePhone(var isFolded: Boolean = true) : Phone() {
+    override fun switchOn() {
+        if (!isFolded) {
+            isScreenLightOn = true
         }
-        println()
+    }
+
+    fun fold() {
+        isFolded = true
+    }
+
+    fun unfold() {
+        isFolded = false
     }
 }
